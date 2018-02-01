@@ -1,12 +1,13 @@
 # Introduction
-Included is a zipped up solution including 2 projects:
+Included is 2 projects:
 Config – Interface and non implemented concrete class for a configuration library.  Also includes a ConfigValue class and an IPersistSource interface.
 ConfigTests – Start of framework for implementing a set of tests around Config.  An IPersistSource interface is included which can be expanded if needed, it represents saving to a flat file or to a Mongo database.
-Dependent Libraries
+
+# Dependent Libraries
 You will need or be using the following
 VS2015 Community Edition
 MSTest – not the best test framework but the default one that comes with VS.  Feel free to change it to xUnit or nUnit if you wish
-Moq – Mocking framework, uses the Castle Dynamic Proxy interceptor which is also included.  Check it out here.
+Moq – Mocking framework, uses the Castle Dynamic Proxy interceptor which is also included.
 Log4Net – file / console logging – configured to drop a file in the bin/Debug directory and also write to the console
  
 # Exercises
