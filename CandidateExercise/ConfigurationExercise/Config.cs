@@ -88,22 +88,60 @@ namespace FutureWonder.Exercises.Configuration
 
         public ConfigValue GetValue(string key)
         {
-            throw new NotImplementedException();
+            // Creating a new List and adding the key in the list
+            IList<string> keyList = new List<string>(); keyList.Add(key);
+
+            if(_persistSource != null) {
+                KVPList kvpList = _persistSource.LoadValues(keyList); // Loading values from PersistSource using the list
+
+                if (kvpList != null) // If the loaded KVPList is not empty
+                    if (kvpList.Count == 1) // If the number of elements in the list is 1, return the Value (ConfigValue)
+                        return kvpList[0].Value;
+                    else if (kvpList.Count > 1) // If the number of elements is more than 1, throw an exception
+                        throw new Exception("ERROR! Key with Multiple Values!");
+            }
+
+            return new ConfigValue(); // If the none of the above conditions satisfy, return an empty object
         }
 
         public void SaveValue(KVP kvp)
         {
-            throw new NotImplementedException();
+            if (GetValue(kvp.Key).Value != null) { // Calling GetValue to check if the key provided in the KVP already exists in the PersistSource
+                
+                // Creating a new KVPList and adding the KVP to the list
+                IList<KeyValuePair<string, ConfigValue>> kvpList = new List<KeyValuePair<string, ConfigValue>>();
+                kvpList.Add(kvp);
+
+                // Saving the KVPList in the PersistSource
+                if (_persistSource != null)
+                { _persistSource.PersistValues(kvpList);
+                }
+            }
+            else
+            {
+                // Displaying an error if the KVP already exists in the PersistSource
+                _log.Error("ERROR! Key Given in the KVP Already Exists!");
+            }
         }
 
         public void SaveValues(KVPList kvps)
         {
-            throw new NotImplementedException();
+            // Saving the given KVPList in the PersistSource
+            if (_persistSource != null)
+            {
+                _persistSource.PersistValues(kvps);
+            }
         }
 
         public KVPList GetValues(KList keys)
         {
-            throw new NotImplementedException();
+            // Returning the KVPList on the basis of the given KList
+            if (_persistSource != null)
+            {
+                return _persistSource.LoadValues(keys);
+            }
+
+            return null; // Returning null if PersistSource is null
         }
 
         public ConfigValue GetValue(User user, string key)
